@@ -5,21 +5,25 @@ spring:
     gateway:
       routes:
         - id: user
-          uri: http://localhost:8081/
+          uri: lb://user/
           predicates:
             - Path=/users/**
         - id: pay
-          uri: http://localhost:8082/
+          uri: lb://pay/
           predicates:
             - Path=/accounts/**
         - id: product
-          uri: http://localhost:8083/
+          uri: lb://product/
           predicates:
             - Path=/products/**, /brands/**, /interest/**
         - id: bid
-          uri: http://localhost:8084/
+          uri: lb://bid/
           predicates:
             - Path=/bid/**
+        - id: contract
+          uri: lb://contract/
+          predicates:
+            - Path=/contracts/**
 
 eureka:
   client:
