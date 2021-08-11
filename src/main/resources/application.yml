@@ -8,22 +8,32 @@ spring:
           uri: lb://user/
           predicates:
             - Path=/users/**
+          filters:
+            - JwtAuthenticationFilter
         - id: pay
           uri: lb://pay/
           predicates:
             - Path=/accounts/**
+          filters:
+            - JwtAuthenticationFilter
         - id: product
           uri: lb://product/
           predicates:
             - Path=/products/**, /brands/**, /interest/**
+          filters:
+            - JwtAuthenticationFilter
         - id: bid
           uri: lb://bid/
           predicates:
             - Path=/bid/**
+          filters:
+            - JwtAuthenticationFilter
         - id: contract
           uri: lb://contract/
           predicates:
             - Path=/contracts/**
+          filters:
+            - JwtAuthenticationFilter
 
 eureka:
   client:

@@ -3,6 +3,7 @@ package com.choulatte.scentgateway.filter;
 import com.choulatte.scentgateway.auth.JwtTokenProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -24,6 +25,11 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+
+            if (request.getMethod() == HttpMethod.POST
+                    && (request.getPath().value().equals("/users") || request.getPath().value().equals("/users/join"))) {
+                return chain.filter(exchange);
+            }
 
             if (request.getHeaders().containsKey("Authorization")
                     && jwtTokenProvider.validateToken(Objects.requireNonNull(request.getHeaders().get("Authorization")).get(0))) {
