@@ -31,8 +31,12 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 return chain.filter(exchange);
             }
 
+            String token = Objects.requireNonNull(request.getHeaders().get("Authorization")).get(0);
+
             if (request.getHeaders().containsKey("Authorization")
-                    && jwtTokenProvider.validateToken(Objects.requireNonNull(request.getHeaders().get("Authorization")).get(0))) {
+                    && jwtTokenProvider.validateToken(token)) {
+                request.mutate().header("User-Idx", jwtTokenProvider.getUserIdx(token)).build();
+
                 return chain.filter(exchange);
             }
 

@@ -27,4 +27,8 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
+    public String getUserIdx(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("user_idx", String.class);
+    }
 }
