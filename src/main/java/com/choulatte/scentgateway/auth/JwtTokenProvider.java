@@ -28,6 +28,10 @@ public class JwtTokenProvider {
         }
     }
 
+    public String getUsername(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
     public String getUserIdx(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("user_idx", String.class);
     }

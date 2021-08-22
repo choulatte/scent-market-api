@@ -35,7 +35,8 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
             if (request.getHeaders().containsKey("Authorization")
                     && jwtTokenProvider.validateToken(token)) {
-                request.mutate().header("User-Idx", jwtTokenProvider.getUserIdx(token)).build();
+                request.mutate().header("User-Idx", jwtTokenProvider.getUserIdx(token))
+                        .header("Username", jwtTokenProvider.getUsername(token)).build();
 
                 return chain.filter(exchange);
             }
